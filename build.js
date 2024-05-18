@@ -22,6 +22,9 @@ const icons = Object.entries(simpleIcons).map(([ name, { slug, svg } ]) => ({
   kebabCasedComponentName: `${handleComponentName(slug)}-icon`
 }))
 
+// Set to store exported component names
+const exportedComponentNames = new Set()
+
 // Create Svelte components and output the main index file
 Promise.all(icons.map(icon => {
   const component = componentTemplate(icon.kebabCasedComponentName, icon.svg)
@@ -30,7 +33,16 @@ Promise.all(icons.map(icon => {
     .then(() => fs.writeFile(filepath, component, 'utf8'))
 })).then(() => {
   const main = icons
-    .map(icon => `export { default as ${icon.pascalCasedComponentName} } from './icons/${icon.pascalCasedComponentName}.svelte'`)
+    .map(icon => {
+      // Check if the component name has already been exported
+      if (!exportedComponentNames.has(icon.pascalCasedComponentName)) {
+        // Add the component name to the set
+        exportedComponentNames.add(icon.pascalCasedComponentName)
+        return `export { default as ${icon.pascalCasedComponentName} } from './icons/${icon.pascalCasedComponentName}.svelte'`
+      }
+      return ''
+    })
+    .filter(line => line !== '') // Remove empty lines
     .join('\n\n')
   return fs.outputFile('./src/index.js', main, 'utf8')
 })
