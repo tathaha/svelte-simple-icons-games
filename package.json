@@ -30,7 +30,7 @@
     "rollup-plugin-node-resolve": "^5.1.0",
     "rollup-plugin-svelte": "latest",
     "rollup-plugin-terser": "^5.0.0",
-    "simple-icons": "^1.19.0",
+    "simple-icons": "latest",
     "svelte": "latest"
   },
   "keywords": [
