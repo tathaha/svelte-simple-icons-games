@@ -5,7 +5,9 @@ const fs = require('fs-extra')
 
 // Template for the Svelte component
 const componentTemplate = (name, svg) => `<svelte:options tag="${name}"/>
-${svg.replace('<svg ', '<svg class={styleClass} ')}
+<svg class={styleClass} xmlns="http://www.w3.org/2000/svg">
+  ${svg}
+</svg>
 <script>
   export let styleClass = ''
 </script>
