@@ -1,10 +1,10 @@
 {
-  "name": "svelte-simple-icons",
-  "description": "Simple icons for Svelte",
+  "name": "svelte-simple-icons-games",
+  "description": "Simple icons for Svelte. Update from old res",
   "version": "1.0.3",
-  "author": "antony <aj@desirableobjects.co.uk>",
+  "author": "Chiraitori <contact@chiraitori.lol>",
   "repository": {
-    "url": "beyonk-adventures/svelte-simple-icons",
+    "url": "tathaha/svelte-simple-icons-games",
     "type": "git"
   },
   "svelte": "src/index.js",
