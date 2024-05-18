@@ -1,6 +1,6 @@
 const path = require('path');
 const simpleIcons = require('simple-icons');
-const pascalCase = require('pascal-case').pascalCase;
+const { pascalCase } = require('pascal-case');
 const fs = require('fs-extra');
 
 const componentTemplate = (name, svg) => `<svelte:options tag="${name}"/>
