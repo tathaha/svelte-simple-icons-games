@@ -33,6 +33,7 @@ Promise.all(icons.map(icon => {
     .then(() => fs.writeFile(filepath, component, 'utf8'))
 })).then(() => {
   const main = icons
+    .filter(icon => icon.pascalCasedComponentName !== 'Icon') // Exclude Icon.svelte from export
     .map(icon => {
       // Check if the component name has already been exported
       if (!exportedComponentNames.has(icon.pascalCasedComponentName)) {
