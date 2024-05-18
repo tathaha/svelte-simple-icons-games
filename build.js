@@ -1,6 +1,6 @@
 const path = require('path');
 const simpleIcons = require('simple-icons');
-const pascalCase = require('pascal-case');
+const pascalCase = require('pascal-case').pascalCase;
 const fs = require('fs-extra');
 
 const componentTemplate = (name, svg) => `<svelte:options tag="${name}"/>
@@ -16,13 +16,21 @@ const handleComponentName = slug => {
   return slug;
 };
 
+const ensureValidTagName = name => {
+  if (!name.includes('-')) {
+    return `icon-${name}`;
+  }
+  return name;
+};
+
 const icons = Object.entries(simpleIcons).map(([name, { slug, svg }]) => {
   const handledSlug = handleComponentName(slug);
+  const validTagName = ensureValidTagName(handledSlug);
   return {
     name,
     svg,
-    pascalCasedComponentName: pascalCase(`${handledSlug}-icon`),
-    kebabCasedComponentName: `${handledSlug}-icon`
+    pascalCasedComponentName: pascalCase(`${validTagName}-icon`),
+    kebabCasedComponentName: `${validTagName}-icon`
   };
 });
 
