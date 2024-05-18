@@ -13,15 +13,18 @@ ${svg.replace('<svg ', '<svg class={styleClass} ')}
 const handleComponentName = slug => {
   if (slug === '500px') return 'five-hundred-px';
   if (/^\d/.test(slug)) return `icon-${slug}`; // Prefixes identifiers starting with a number with 'icon-'
-  return slug.replace(/\-(\d+)/, '$1');
+  return slug;
 };
 
-const icons = Object.entries(simpleIcons).map(([name, { slug, svg }]) => ({
-  name,
-  svg,
-  pascalCasedComponentName: pascalCase(`${handleComponentName(slug)}-icon`),
-  kebabCasedComponentName: `${handleComponentName(slug)}-icon`
-}));
+const icons = Object.entries(simpleIcons).map(([name, { slug, svg }]) => {
+  const handledSlug = handleComponentName(slug);
+  return {
+    name,
+    svg,
+    pascalCasedComponentName: pascalCase(`${handledSlug}-icon`),
+    kebabCasedComponentName: `${handledSlug}-icon`
+  };
+});
 
 Promise.all(icons.map(icon => {
   const component = componentTemplate(icon.kebabCasedComponentName, icon.svg);
@@ -30,7 +33,7 @@ Promise.all(icons.map(icon => {
     .then(() => fs.writeFile(filepath, component, 'utf8'));
 })).then(() => {
   const main = icons
-    .map(icon => `export { default as _${icon.pascalCasedComponentName} } from './icons/${icon.pascalCasedComponentName}.svelte';`)
+    .map(icon => `export { default as ${icon.pascalCasedComponentName} } from './icons/${icon.pascalCasedComponentName}.svelte';`)
     .join('\n\n');
   return fs.outputFile('./src/index.js', main, 'utf8');
 });
